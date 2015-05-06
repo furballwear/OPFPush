@@ -21,8 +21,10 @@ import android.content.Context;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.telephony.TelephonyManager;
 
+import org.onepf.opfpush.listener.CheckManifestHandler;
 import org.onepf.opfutils.OPFLog;
 import org.onepf.opfpush.OPFPush;
 import org.onepf.opfpush.adm.ADMProvider;
@@ -59,6 +61,12 @@ public class DemoApplication extends Application {
                         new ADMProvider(this),
                         new NokiaNotificationsProvider(this, NOKIA_SENDER_ID)
                 )
+                .setCheckManifestHandler(new CheckManifestHandler() {
+                    @Override
+                    public void onCheckManifestError(@NonNull final String reportMessage) {
+                        OPFLog.e(reportMessage);
+                    }
+                })
                 .setSelectSystemPreferred(true)
                 .setEventListener(new DemoEventListener());
 

@@ -209,11 +209,19 @@ public final class CheckUtils {
             reportBuilder.append(LINE_SEPARATOR)
                     .append("queryBroadcastReceivers returns not empty list. List size : ").append(receivers.size())
                     .append(LINE_SEPARATOR)
-                    .append("PackageName : ").append(packageName);
+                    .append("PackageName : ").append(packageName)
+                    .append(LINE_SEPARATOR)
+                    .append("Receivers by query:");
 
             int emptyPackageNameCounter = 0;
             int emptyReceiverNameCounter = 0;
             for (ResolveInfo receiver : receivers) {
+
+                reportBuilder.append(LINE_SEPARATOR)
+                        .append("Receiver package : \"").append(receiver.activityInfo.packageName).append("\";")
+                        .append(" receiver name : \"").append(receiver.activityInfo.name).append("\".");
+
+
                 if (TextUtils.isEmpty(receiver.activityInfo.packageName)) {
                     ++emptyPackageNameCounter;
                 } else if (receiver.activityInfo.packageName.equals(packageName)) {
@@ -251,10 +259,10 @@ public final class CheckUtils {
 
         for (ActivityInfo packageReceiver : packageReceivers) {
             reportBuilder.append(LINE_SEPARATOR)
-                    .append("Receiver package : ")
-                    .append(packageReceiver.packageName)
-                    .append(" receiver name : ")
-                    .append(packageReceiver.name);
+                    .append("Receiver package : \"")
+                    .append(packageReceiver.packageName).append("\";")
+                    .append(" receiver name : \"")
+                    .append(packageReceiver.name).append("\".");
         }
 
         return reportBuilder.toString();
